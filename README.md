@@ -29,3 +29,5 @@
     cd ../
     yarn run ios 或者 npm run ios
 ```
+
+![Alt text](https://github.com/caicaicn/react-native-toutiao/blob/master/app-admin/images/example.png)
