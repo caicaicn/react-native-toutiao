@@ -22,12 +22,11 @@ class NavTop extends React.Component {
     constructor(){
         super()
         this.state = {
-            newId: channelInfo[0].name
+            newId: channelInfo[0].id
         }
     }
 
     select(id){
-        console.log(id);
         this.setState({
             newId: id
         })

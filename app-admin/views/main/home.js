@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, View, Button, Image, FlatList, TouchableHighlight } from "react-native";
 import HTMLView from 'react-native-htmlview';    // 渲染html标签
-import { getNewsByChannel } from "../../server"
-// import Storage from "../../utils/base";
-import NavTop from "../../component/navTop"
+import { getNewsByChannel } from "../../server";
+import { replaceUrl } from "../../utils/base";
+import NavTop from "../../component/navTop";
+import UserInfo from "../../component/userInfo";
+import ItemDivideComponent from "../../component/listLine";
 
-// 定义列表分割线
-class ItemDivideComponent extends Component {
-    render() {
-        return (
-            <View style={{ height: 1, backgroundColor: '#ccc' }} />
-        );
-    }
-};
 
 class Home extends React.Component {
     constructor() {
@@ -37,8 +31,6 @@ class Home extends React.Component {
             });
         })
     }
-
-
 
     init(){
         this.setState({
@@ -70,8 +62,6 @@ class Home extends React.Component {
         const _item = ({ item, separators }) => (
             <TouchableHighlight
                 onPress={this.chooseNews.bind(this, item.url)}
-                onEndReached={this.loadMore.bind(this)}
-                onEndReachedThreshold={0.1}
                 keyExtractor={(item, index) => index.toString()} // key属性
                 activeOpacity={0.5}
                 underlayColor={'#ffffff'}
@@ -84,28 +74,21 @@ class Home extends React.Component {
                     {/* numberOfLines    超过换行 */}
                     <Text style={style.newDes} numberOfLines={3}>{item.abstract}</Text>
                     {/* 图片列表 */}
-                    {/* <View style={style.imgBox}>
+                    <View style={style.imgBox}>
                         {
                             item.image_list && item.image_list.map((img, index) => {
                                 return (
                                     <Image
                                         key={index}
-                                        style={{ height: img.height }}
-                                        source={{ uri: img.url }}
+                                        style={{ height: img.height, flex: 1, margin: 5 }}
+                                        source={{ uri: replaceUrl(img.url) }}
                                     />
                                 )
                             })
                         }
-                    </View> */}
+                    </View>
                     {
-                        item.user_info && item.user_info.avatar_url && item.user_info.name && <View style={style.itemTips}>
-                            <Image
-                                style={{ height: 30, width: 30, borderRadius: 30 }}
-                                source={{ uri: item.user_info.avatar_url }}
-                            ></Image>
-                            <Text style={style.tipsInfo}>{item.user_info.name}</Text>
-                            <Text style={style.tipsInfo}>{item.comment_count}评论</Text>
-                        </View>
+                        item.user_info && item.user_info.avatar_url && item.user_info.name && <UserInfo avatar_url={item.user_info.avatar_url} name={item.user_info.name} comment_count={item.comment_count}></UserInfo>
                     }
                 </View>
             </TouchableHighlight>
@@ -123,6 +106,7 @@ class Home extends React.Component {
                         onEndReachedThreshold={0.2}
                         onEndReached={this.loadMore.bind(this)}
                         onRefresh={this.init.bind(this)}
+                        keyExtractor={(item, index) => index.toString()}    // 元素添加key
                     />
                 }
             </View>

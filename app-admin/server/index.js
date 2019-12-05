@@ -42,10 +42,10 @@ export function getNewsByChannel(channel, start = 0, end = 10) {
 }
 
 //获取视频列表
-export function getVideoList(start = 0, end = 10) {
+export function getVideoList(channel, start = 0, end = 10) {
     return new Promise((resolve, reject) => {
         let c = 'hotsoon_video';// 热门小视频
-        let api = `http://is.snssdk.com/api/news/feed/v51/?category=video`;
+        let api = `http://is.snssdk.com/api/news/feed/v51/?category=${channel}`;
         // let api = `http://www.yidianzixun.com/home/q/news_list_for_channel?channel_id=u13746&cstart=${start}&cend=${end}&infinite=true&refresh=1&__from__=wap&appid=web_yidian`;
         fetch(api)
             .then((response) => response.json())
@@ -57,7 +57,7 @@ export function getVideoList(start = 0, end = 10) {
                     for (let item of newsArr) {
                         // 获取内容数据
                         let content = item.content;
-                        console.log(content);
+                        // console.log(content);
                         // 获取json内容
                         let json = JSON.parse(content);
 
@@ -65,14 +65,14 @@ export function getVideoList(start = 0, end = 10) {
                         // 添加到视频列表中
                         if (json.url) {
                             let videoID = json.video_id; // 视频id
-                            console.log('videoID:' + videoID);
+                            // console.log('videoID:' + videoID);
 
 
                             // 获取视频url
                             getVideoUrl(videoID)
                                 .then((data) => {
                                     json.video_url = data;
-                                    console.log('video_url:' + json.video_url);
+                                    // console.log('video_url:' + json.video_url);
                                     videoArr.push(json)
                                 }).catch((e) => {
                                     throw new Error(json.status);
@@ -121,7 +121,7 @@ export function getVideoUrl(videoID) {
 
                     // let decodedData = window.atob(main_url); // 需要浏览器支持
                     let decodedData = new Base64().decode(main_url);
-                    console.log('mian_url:' + decodedData);
+                    // console.log('mian_url:' + decodedData);
                     resolve(decodedData);
                 } else {
                     throw new Error(json.status);
@@ -148,7 +148,7 @@ function getVideoContentApi(videoID) {
         for (let i = 0; i < 16; i++) {
             let c = Math.floor(Math.random() * 10);
             result += c;
-            console.log(c);
+            // console.log(c);
         }
         return result.toString();
     };
@@ -156,11 +156,11 @@ function getVideoContentApi(videoID) {
     let VIDEO_HOST = "http://ib.365yg.com"; // host
     let video_url = `/video/urls/v/1/toutiao/mp4/${videoID}?r=${getRandom()}`; // 原始字符串
     let crcString = crc32(video_url); // 对原始字符串进行crc32加密
-    console.log(`video_url:${video_url},crc32str:${crcString}`);
+    // console.log(`video_url:${video_url},crc32str:${crcString}`);
 
     // 获取详细的url链接数据
     let url = VIDEO_HOST + video_url + "&s=" + crcString;
-    console.log('final_url:' + url);
+    // console.log('final_url:' + url);
     return url;
 }
 

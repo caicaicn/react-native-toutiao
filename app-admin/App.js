@@ -7,7 +7,7 @@ import News from "./views/new";
 
 const routerConfig = {
     Main: TopTabNavigator,
-    News
+    News,
 }
 
 const TabNavigatorConfig = {

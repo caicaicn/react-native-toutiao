@@ -58,7 +58,7 @@ const routerConfig = {
 }
 
 const tabNavigatorConfig = {
-    initialRouteName: 'Home',
+    initialRouteName: 'Video',
     swipeEnabled: true,
     tabBarOptions: {
         activeTintColor: "#c54741",
