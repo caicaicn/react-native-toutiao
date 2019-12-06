@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Button, ScrollView } from "react-native";
+import { Text, View, TextInput } from "react-native";
 import HTMLView from 'react-native-htmlview';    // 渲染html标签
 
 class Home extends React.Component {
@@ -8,14 +8,13 @@ class Home extends React.Component {
         console.log(this.props.navigation.state);
         return (
             <View>
-                <ScrollView>
-                    <Text>Attention</Text>
-                </ScrollView>
-
+                <TextInput/>
             </View>
         );
     }
 }
+
+
 
 export default Home;
 

@@ -3,19 +3,26 @@ import { Text, View, Button, ScrollView, StyleSheet } from "react-native";
 import HTMLView from 'react-native-htmlview';    // 渲染html标签
 
 const channelInfo = [
-    { 'id': 'news_hot', 'name': '热点' },
-    { 'id': 'news_society', 'name': '社会' },
-    { 'id': 'news_entertainment', 'name': '娱乐' },
-    { 'id': 'news_tech', 'name': '科技' },
-    { 'id': 'news_car', 'name': '汽车' },
-    { 'id': 'news_sports', 'name': '体育' },
-    { 'id': 'news_finance', 'name': '财经' },
-    { 'id': 'news_military', 'name': '军事' },
-    { 'id': 'news_world', 'name': '国际' },
-    { 'id': 'essay_joke', 'name': '段子' },
-    { 'id': 'question_and_answer', 'name': '问答' },
-    { 'id': 'image_funny', 'name': '趣图' },
-    { 'id': '组图', 'name': '图片' }
+    { name: "推荐", id: "__all__" },
+    { name: "热点", id: "news_hot" },
+    { name: "科技", id: "news_tech" },
+    { name: "社会", id: "news_society" },
+    { name: "娱乐", id: "news_entertainment" },
+    { name: "游戏", id: "news_game" },
+    { name: "体育", id: "news_sports" },
+    { name: "汽车", id: "news_car" },
+    { name: "财经", id: "news_finance" },
+    { name: "搞笑", id: "funny" },
+    { name: "军事", id: "news_military" },
+    { name: "国际", id: "news_world" },
+    { name: "时尚", id: "news_fashion" },
+    { name: "旅游", id: "news_travel" },
+    { name: "探索", id: "news_discovery" },
+    { name: "育儿", id: "news_baby" },
+    { name: "养生", id: "news_regimen" },
+    { name: "美文", id: "news_essay" },
+    { name: "历史", id: "news_history" },
+    { name: "美食", id: "news_food" },
 ]
 
 class NavTop extends React.Component {

@@ -14,16 +14,13 @@ class Home extends React.Component {
             start: 0,
             end: 10,
             newsData: [],
-            newsId: "video"
+            newsId: "video",
+            isRefresh: false
         }
     }
 
     init() {
-        this.setState({
-            start: 0,
-            end: 10,
-            newsData: []
-        }, () => this.loadMore())
+        this.loadMore('init')
     }
 
     // 顶部导航回调 id为选择的新闻id
@@ -40,15 +37,19 @@ class Home extends React.Component {
         this.props.navigation.push("News", { 'newUrl': encodeURIComponent(url) })
     }
 
-    loadMore(){
+    loadMore(type){
         const { start, end, newsData, newsId } = this.state;
+        this.setState({
+            isRefresh: true
+        })
         getVideoList(newsId, start, end)
         .then(res=>{
-            let list = [...newsData, ...res]
+            let list = type == 'init' ? res : [...newsData, ...res];
             this.setState({ // 设置状态
                 newsData: list,
                 start: end,
-                end: end + 10
+                end: end + 10,
+                isRefresh: false
             });
         })
         .catch(error=>{
@@ -63,7 +64,7 @@ class Home extends React.Component {
 
 
     render() {
-        const { newsData } = this.state
+        const { newsData, isRefresh } = this.state
         const _item = ({ item }) => 
         <TouchableHighlight 
             onPress={this.chooseNews.bind(this, item.url)}
@@ -78,11 +79,18 @@ class Home extends React.Component {
                 />
                 {/* 视频信息 */}
                 <View style={[style.videoInfo, { height: item.middle_image.height }]}>
-                        <Text style={style.itemTitle} numberOfLines={2}>{item.abstract}</Text>
-                        <Text style={[style.videoDetail, style.videoCount]}>{countFilter(item.video_detail_info.video_watch_count)}播放</Text>
+                    <Text style={style.itemTitle} numberOfLines={2}>{item.abstract}</Text>
+                    <Text style={[style.videoDetail, style.videoCount]}>{countFilter(item.video_detail_info.video_watch_count)}播放</Text>
                     <View style={[style.videoDetail, style.videoTime]}>
                         <Text style={style.videoTimeContent}>{timeFilter(item.video_duration)}</Text>
                     </View>
+                    <View style={style.playIconBox}>
+                        <Image
+                            style={style.playIcon}
+                            source={require("../../images/play.png")}
+                        />
+                    </View>
+                    
                 </View>
                 {/* 用户信息 */}
                     <UserInfo avatar_url={item.user_info.avatar_url} name={item.user_info.name} comment_count={item.comment_count}></UserInfo>
@@ -96,7 +104,7 @@ class Home extends React.Component {
                     data={newsData}
                     renderItem={ _item }
                     ItemSeparatorComponent={ItemDivideComponent}
-                    refreshing={false}   // 下拉才会出现 上拉不出现
+                    refreshing={isRefresh}   // 下拉才会出现 上拉不出现
                     onEndReachedThreshold={0.1}
                     onEndReached={this.loadMore.bind(this)}
                     onRefresh={this.init.bind(this)}
@@ -125,6 +133,7 @@ var style = StyleSheet.create({
         width: '100%',
     },
     videoInfo:{
+        position: "relative",
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 10,
@@ -157,6 +166,22 @@ var style = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
         color: "#ffffff",
+    },
+    playIcon:{
+        width: 60,
+        height: 60,
+        opacity: 0.7,
+        margin: 'auto',
+        backgroundColor: "#ffffff",
+        borderRadius: 60
+    },
+    playIconBox:{ 
+        position: "absolute", 
+        width: '100%', 
+        height: "100%", 
+        justifyContent: 'center', 
+        alignItems: "center", 
+        flexDirection: 'row',
     }
 })
 export default Home;

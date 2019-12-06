@@ -38,7 +38,7 @@ const routerConfig = {
     Attention: {
         screen: Attention,
         navigationOptions: ({ navigation }) => ({
-            title: '关注',
+            title: '热搜',
             tabBarIcon: ({ focused }) => <Image
                 style={{ width: 16, height: 18, marginRight: 3 }}
                 source={focused ? require(`../../images/tabbar_3_press.png`) : require(`../../images/tabbar_3.png`)}
@@ -58,7 +58,7 @@ const routerConfig = {
 }
 
 const tabNavigatorConfig = {
-    initialRouteName: 'Video',
+    initialRouteName: 'Attention',
     swipeEnabled: true,
     tabBarOptions: {
         activeTintColor: "#c54741",

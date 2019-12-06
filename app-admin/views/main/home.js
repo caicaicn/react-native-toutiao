@@ -15,29 +15,31 @@ class Home extends React.Component {
             start: 0,
             end: 10,
             newsData: [],
-            newsId: "news_hot"
+            newsId: "news_hot",
+            isRefresh: false
         }
     }
 
-    loadMore() {
-        const { start, end, newsData, newsId } = this.state
+    loadMore(type) {
+        const { start, end, newsData, newsId } = this.state;
+        this.setState({
+            isRefresh: true
+        })
         getNewsByChannel(newsId, start, end)
         .then(res => {
-            let list = [...newsData, ...res]
+
+            let list = type == 'init' ? res : [...newsData, ...res];
             this.setState({ // 设置状态
                 newsData: list,
                 start: end,
-                end: end + 10
+                end: end + 10,
+                isRefresh: false
             });
         })
     }
 
     init(){
-        this.setState({
-            start: 0,
-            end: 10,
-            newsData: []
-        }, () => this.loadMore())
+        this.loadMore('init')
     }
 
     // 跳转到新闻详情页面
@@ -58,7 +60,7 @@ class Home extends React.Component {
     }
 
     render() {
-        const { newsData } = this.state
+        const { newsData, isRefresh } = this.state
         const _item = ({ item, separators }) => (
             <TouchableHighlight
                 onPress={this.chooseNews.bind(this, item.url)}
@@ -102,7 +104,7 @@ class Home extends React.Component {
                         data={newsData}
                         ItemSeparatorComponent={ItemDivideComponent}
                         renderItem={_item}
-                        refreshing={false}   // 下拉才会出现 上拉不出现
+                        refreshing={isRefresh}   // 下拉才会出现 上拉不出现
                         onEndReachedThreshold={0.2}
                         onEndReached={this.loadMore.bind(this)}
                         onRefresh={this.init.bind(this)}
