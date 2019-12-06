@@ -98,7 +98,7 @@ class Home extends React.Component {
         </TouchableHighlight>
 
         return (
-            <View>
+            <View style={style.container}>
                 <NavTop callback={this.newIdCb.bind(this)}></NavTop> 
                 <FlatList
                     data={newsData}
@@ -116,6 +116,10 @@ class Home extends React.Component {
 }
 
 var style = StyleSheet.create({
+    container: {
+        backgroundColor: "#f5fcff",
+        minHeight: '100%'
+    },
     item:{
         paddingTop: 10,
         paddingBottom: 10,

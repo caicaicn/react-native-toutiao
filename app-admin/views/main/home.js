@@ -97,7 +97,7 @@ class Home extends React.Component {
         )
 
         return (
-            <View>
+            <View style={style.container}>
                 <NavTop callback={ this.newIdCb.bind(this) }></NavTop>   
                 {
                     newsData.length > 0 && <FlatList
@@ -118,6 +118,10 @@ class Home extends React.Component {
 }
 
 var style = StyleSheet.create({
+    container: {
+        backgroundColor: "#f5fcff",
+        minHeight: '100%'
+    },
     title: {
         fontWeight: '700',
         marginBottom: 6,
